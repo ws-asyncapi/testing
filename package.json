@@ -1,0 +1,36 @@
+{
+    "name": "@ws-asyncapi/testing",
+    "version": "0.1.0",
+    "description": "In-memory test harness for ws-asyncapi — a typed client talking to a channel with no sockets or ports",
+    "license": "MIT",
+    "type": "module",
+    "author": {
+        "url": "https://github.com/kravetsone",
+        "name": "kravets"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ws-asyncapi/testing.git"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
+    },
+    "files": ["dist"],
+    "scripts": {
+        "prepublishOnly": "bunx pkgroll"
+    },
+    "peerDependencies": {
+        "@ws-asyncapi/adapter-node": "^0.1.0",
+        "@ws-asyncapi/client": "^0.1.0",
+        "ws-asyncapi": "^0.1.0"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@types/bun": "latest",
+        "pkgroll": "^2.11.2"
+    }
+}
