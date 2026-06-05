@@ -166,6 +166,8 @@ export function createTestHarness<C extends AnyChannel>(
     };
     channel["~"].sendCommand = (cmd: NodeCommand) =>
         void backplane.publish(COMMAND_TOPIC, JSON.stringify(cmd));
+    channel["~"].publishFrame = (topic, frame, except) =>
+        void backplane.publish(topic, codec.encode(frame), undefined, except);
 
     function connect(connOpts: TestConnectOptions = {}): WsClient<InferClient<C>> {
         const path =
