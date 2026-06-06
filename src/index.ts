@@ -35,6 +35,7 @@ import {
     openConnection,
     OutboundRpc,
     publishEvent,
+    type ServerPlugin,
     StreamRegistry,
 } from "ws-asyncapi";
 
@@ -43,6 +44,8 @@ export interface TestHarnessOptions {
     codec?: Codec;
     /** backplane (default: a fresh in-process LocalBackplane with recovery on). */
     backplane?: Backplane;
+    /** server-level plugins (metrics/tracing/logging) tapping the channel */
+    plugins?: ServerPlugin[];
 }
 
 export interface TestConnectOptions {
@@ -166,6 +169,7 @@ export function createTestHarness<C extends AnyChannel>(
     };
     channel["~"].sendCommand = (cmd: NodeCommand) =>
         void backplane.publish(COMMAND_TOPIC, JSON.stringify(cmd));
+    if (options.plugins) channel["~"].serverPlugins = options.plugins;
     channel["~"].publishFrame = (topic, frame, except) =>
         void backplane.publish(topic, codec.encode(frame), undefined, except);
     if (channel["~"].history.size)
