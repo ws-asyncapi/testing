@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "noEmit": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "paths": {
+            "@ws-asyncapi/adapter-node": ["../adapter-node/src/index.ts"],
+            "@ws-asyncapi/client": ["../client/src/index.ts"]
+        }
+    }
+}
