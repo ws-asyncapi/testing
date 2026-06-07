@@ -255,3 +255,38 @@ export function createTestHarness<C extends AnyChannel>(
         },
     };
 }
+
+export * from "./conformance.ts";
+
+import type { ConformanceDriver } from "./conformance.ts";
+
+/**
+ * Conformance driver backed by the in-memory {@link createTestHarness}. Pass it
+ * to {@link runConformance} to run the protocol contract over the harness:
+ *
+ * ```ts
+ * import { runConformance, harnessDriver } from "@ws-asyncapi/testing";
+ * import { describe, it, expect } from "bun:test";
+ * runConformance(harnessDriver, { describe, it, expect });
+ * ```
+ */
+export const harnessDriver: ConformanceDriver = {
+    name: "harness",
+    // The harness uses a non-reconnecting in-memory pipe, so connection-state
+    // recovery (which requires a real client reconnect) is verified by the
+    // real-socket adapter drivers, not here. Cross-node works with a shared
+    // (e.g. Redis) backplane variant.
+    capabilities: { crossNode: true, recovery: false },
+    setup(channels, options) {
+        const h = createTestHarness(channels[0], {
+            codec: options.codec,
+            backplane: options.backplane,
+            plugins: options.plugins,
+        });
+        return {
+            connect: (opts) => h.connect(opts),
+            backplane: h.backplane,
+            close: () => h.close(),
+        };
+    },
+};

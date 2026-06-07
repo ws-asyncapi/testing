@@ -1,6 +1,6 @@
 {
     "name": "@ws-asyncapi/testing",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "In-memory test harness for ws-asyncapi — a typed client talking to a channel with no sockets or ports",
     "license": "MIT",
     "type": "module",
@@ -14,13 +14,21 @@
     },
     "exports": {
         ".": {
+            "bun": "./src/index.ts",
             "types": "./dist/index.d.ts",
             "import": "./dist/index.js",
             "require": "./dist/index.cjs"
+        },
+        "./conformance": {
+            "bun": "./src/conformance.ts",
+            "types": "./dist/conformance.d.ts",
+            "import": "./dist/conformance.js",
+            "require": "./dist/conformance.cjs"
         }
     },
     "files": [
-        "dist"
+        "dist",
+        "src"
     ],
     "scripts": {
         "prepublishOnly": "bunx pkgroll"
@@ -30,11 +38,13 @@
         "@ws-asyncapi/client": "^0.1.0",
         "ws-asyncapi": "^0.1.0"
     },
+    "dependencies": {
+        "zod": "^4.4.3"
+    },
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",
         "@types/bun": "latest",
         "pkgroll": "^2.11.2",
-        "typescript": "^5.8.2",
-        "zod": "^4.4.3"
+        "typescript": "^5.8.2"
     }
 }
